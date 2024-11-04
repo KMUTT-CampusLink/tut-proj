@@ -1,0 +1,30 @@
+version: '1.0.0'
+
+services:
+  client:
+    build: 
+      context: ./client
+    ports:
+      - "80:80"
+    volumes:
+      - static-data:/app/uploads
+    networks:
+      - client
+      - server
+  
+  server:
+    build:
+      context: ./server
+    ports:
+      - "3500:3500"
+    volumes:
+      - static-data:/app/uploads
+    networks:
+      - server
+
+networks:
+  client:
+  server:
+
+volumes:
+  static-data:
