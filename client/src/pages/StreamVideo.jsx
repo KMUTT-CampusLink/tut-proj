@@ -11,18 +11,6 @@ const StreamVideo = () => {
             <input type="text" className="grow" placeholder="Video Title" />
           </label>
 
-          {/* Username */}
-          <label className="input input-bordered flex items-center gap-2 w-full">
-            Username
-            <input type="text" className="grow" placeholder="Vermillion" />
-          </label>
-
-          {/* Password */}
-          <label className="input input-bordered flex items-center gap-2 w-full">
-            Password
-            <input type="text" className="grow" placeholder="Strong" />
-          </label>
-
           {/* Poster */}
           <div className="flex flex-row items-center justify-center gap-1 w-full">
             <span>Poster:</span>
@@ -41,9 +29,7 @@ const StreamVideo = () => {
             />
           </div>
 
-          <button className="btn btn-primary btn-wide text-white">
-            Upload
-          </button>
+          <button className="btn btn-primary text-white w-full">Upload</button>
         </form>
 
         {/* Streaming */}
@@ -51,10 +37,21 @@ const StreamVideo = () => {
           {/* Streaming Panel */}
           <video src="" controls width="700"></video>
 
-          {/* Video List */}
-          <ul className="menu bg-base-200 rounded-box w-56 font-semibold">
-            <li className="menu-title">Choose a video</li>
-          </ul>
+          <div className="flex items-center justify-center gap-4">
+            {/* Poster Preview */}
+            <div className="w-full flex-1">
+              <img
+                className="w-[15rem] h-[15rem] object-cover"
+                src="/profile-pic.png"
+                alt=""
+              />
+            </div>
+
+            {/* Video List */}
+            <ul className="menu bg-base-200 rounded-box w-56 font-semibold">
+              <li className="menu-title">Choose a video</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
