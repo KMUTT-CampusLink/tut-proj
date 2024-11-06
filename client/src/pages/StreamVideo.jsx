@@ -1,4 +1,22 @@
+import { useUploadFilesMutation } from "../services/mutations";
+import { useQueryClient } from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useIds } from "../services/queries";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { helix } from "ldrs";
+import { z } from "zod";
+helix.register();
+
 const StreamVideo = () => {
+  const [vdUrl, setVdUrl] = useState(null);
+  const [pstrUrl, setPstrUrl] = useState(null);
+  const queryClient = useQueryClient();
+  const { data, error, isLoading } = useIds();
+  // const { mutate, isPending } = useUploadFilesMutation(queryClient, reset);
+
+  if (isLoading) return <div>Fetching...</div>;
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4 p-4 font-georama">
       <h1 className="text-4xl font-semibold">Video Streaming</h1>
@@ -50,6 +68,17 @@ const StreamVideo = () => {
             {/* Video List */}
             <ul className="menu bg-base-200 rounded-box w-56 font-semibold">
               <li className="menu-title">Choose a video</li>
+              {data?.data.map((url, key) => (
+                <li
+                  onClick={() => {
+                    setPstrUrl(url[1]);
+                    setVdUrl(`${import.meta.env.VITE_MINIO_URL}/${url[2]}`);
+                  }}
+                  key={url[0]}
+                >
+                  <a>Video {key + 1}</a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
