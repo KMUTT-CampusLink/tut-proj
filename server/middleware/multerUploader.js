@@ -21,4 +21,39 @@ const APPLICATION_MIME =
 
 const MAX_FILE_SIZE = 1_073_741_824;
 
+const storage = multerStorageEngine({
+  bucketName: process.env.MINIO_BUCKET_NAME,
+  destination: (req, file, cb) => {
+    const mime = file.mimetype;
+    if (IMAGE_MIME.test(mime)) {
+      cb(null, "img/");
+    } else if (VIDEO_MIME.test(mime)) {
+      cb(null, "vd/");
+    } else {
+      cb(null, "doc/");
+    }
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const extension = file.mimetype.split("/")[1];
+    cb(null, `${file.fieldname}-${uniqueSuffix}.${extension}`);
+  },
+});
+
+const file_uploader = multer({
+  storage: storage,
+  limits: {
+    fileSize: MAX_FILE_SIZE,
+  },
+  fileFilter: (req, file, cb) => {
+    const extension = `.${file.mimetype.split("/")[1]}`;
+    if (ALLOWED_EXTENSIONS.test(extension)) {
+      cb(null, true);
+    } else {
+      req.failed_upload = true;
+      cb(new Error("Invalid format"), false);
+    }
+  },
+});
+
 export default file_uploader;
