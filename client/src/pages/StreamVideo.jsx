@@ -167,7 +167,7 @@ const StreamVideo = () => {
               {data?.data.map((url, key) => (
                 <li
                   onClick={() => {
-                    setPstrUrl(url[1]);
+                    setPstrUrl(`${import.meta.env.VITE_MINIO_URL}/${url[1]}`);
                     setVdUrl(`${import.meta.env.VITE_MINIO_URL}/${url[2]}`);
                   }}
                   key={url[0]}
